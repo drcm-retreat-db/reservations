@@ -1,0 +1,22 @@
+{
+  "name": "drcm-reservations-app",
+  "version": "1.0.0",
+  "description": "For the greater glory of God",
+  "main": "index.js",
+  "scripts": {
+    "fe": "cd ./client && npm run start",
+    "be": "cd ./server && npm run dev:start",
+    "start": "cd ./server && npm install --legacy-peer-deps && cd ../client && npm install --legacy-peer-deps"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drcm-retreat-db/reservations.git"
+  },
+  "keywords": [],
+  "author": "Theophilic Catholic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drcm-retreat-db/reservations/issues"
+  },
+  "homepage": "https://github.com/drcm-retreat-db/reservations#readme"
+}

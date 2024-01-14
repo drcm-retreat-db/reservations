@@ -37,54 +37,6 @@ const roomData = require("../models/room.js");
 //   }
 // });
 
-// router.post("/loginData", async (request, response) => {
-//   const adminUser = await adminData.findOne({
-//     adminId: request.body.loginId,
-//   });
-//   if (adminUser) {
-//     const passwordCheck = await bcrypt.compareSync(
-//       request.body.loginPassword,
-//       adminUser.adminPwd
-//     );
-//     if (passwordCheck) {
-//       response.send({
-//         message: `admin_login_success`,
-//         adminName: adminUser.adminName,
-//         adminId: adminUser.adminId,
-//       });
-//     } else {
-//       response.send({
-//         message: `admin_incorrect_password`,
-//         adminName: adminUser.adminName,
-//       });
-//     }
-//   } else {
-//     const doesExist = await userData.findOne({
-//       mobile: request.body.loginId,
-//     });
-//     if (doesExist) {
-//       // const password = request.body.loginPassword;
-//       const passwordCheck = await bcrypt.compareSync(
-//         request.body.loginPassword,
-//         doesExist.password
-//       );
-//       if (passwordCheck) {
-//         response.send({
-//           message: `login_success`,
-//           fullName: doesExist.fullName,
-//           mobile: doesExist.mobile,
-//         });
-//       } else {
-//         response.send({
-//           message: `incorrect_password`,
-//           fullName: doesExist.fullName,
-//         });
-//       }
-//     } else {
-//       response.send({ message: `incorrect_mobile_no` });
-//     }
-//   }
-// });
 
 // router.post("/resetpasscode", async (request, response) => {
 //   const doesExist = await userData.findOne({
@@ -133,6 +85,7 @@ const roomData = require("../models/room.js");
 //     });
 //   }
 // });
+
 
 // router.post("/createapp", async (request, response) => {
 //   const type = request.body.applicationType === "provider" ? "PRO" : "SEE";
@@ -254,6 +207,55 @@ router.post("/createadmin", async (request, response) => {
     });
   }
 });
+router.post("/loginData", async (request, response) => {
+  const adminUser = await adminData.findOne({
+    adminId: request.body.loginId,
+  });
+  if (adminUser) {
+    const passwordCheck = await bcrypt.compareSync(
+      request.body.loginPassword,
+      adminUser.adminPwd
+    );
+    if (passwordCheck) {
+      response.send({
+        message: `admin_login_success`,
+        adminName: adminUser.adminName,
+        adminId: adminUser.adminId,
+      });
+    } else {
+      response.send({
+        message: `admin_incorrect_password`,
+        adminName: adminUser.adminName,
+      });
+    }
+  } else {
+    // const doesExist = await userData.findOne({
+    //   mobile: request.body.loginId,
+    // });
+    // if (doesExist) {
+    //   // const password = request.body.loginPassword;
+    //   const passwordCheck = await bcrypt.compareSync(
+    //     request.body.loginPassword,
+    //     doesExist.password
+    //   );
+    //   if (passwordCheck) {
+    //     response.send({
+    //       message: `login_success`,
+    //       fullName: doesExist.fullName,
+    //       mobile: doesExist.mobile,
+    //     });
+    //   } else {
+    //     response.send({
+    //       message: `incorrect_password`,
+    //       fullName: doesExist.fullName,
+    //     });
+    //   }
+    // } else {
+      response.send({ message: `incorrect_mobile_no` });
+    // }
+  }
+});
+
 router.post("/createroom", async (request, response) => {
   if (isAdmin(request)) {
     const creatableRoom = new roomData({

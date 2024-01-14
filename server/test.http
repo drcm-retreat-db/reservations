@@ -10,14 +10,26 @@ Content-Type: application/json
     "mobile": "trial mobile"
 }
 ###
-POST https://drc-reservations.onrender.com/app/loginData
+# POST https://drc-reservations.onrender.com/app/createadmin
+POST http://localhost:4000/app/createadmin
 Content-Type: application/json
 
 {
-    "loginId": "1231231231",
-    "loginPassword": "123123123"
+    "adminName":"testadmin2",
+    "adminId":"2512251201",
+    "adminPwd":"adminpwd1"
 }
+
 ###
+# POST https://drc-reservations.onrender.com/app/loginData
+POST http://localhost:4000/app/loginData
+Content-Type: application/json
+
+{
+    "loginId": "2512251201",
+    "loginPassword": "adminpwd1"
+}
+
 ###
 POST https://drc-reservations.onrender.com/app/resetpasscode
 Content-Type: application/json
@@ -55,15 +67,7 @@ Content-Type: application/json
       "preferenceTwo": "Human resources(HR)",
       "bookedBy": "1234567891"
 }
-###
-POST https://drc-reservations.onrender.com/app/createadmin
-Content-Type: application/json
 
-{
-    "adminName":"testadmin2",
-    "adminId":"2512251201",
-    "adminPwd":"adminpwd1"
-}
 ###
 GET https://drc-reservations.onrender.com/app/getmyrequests
 Content-Type: application/json

@@ -97,10 +97,14 @@ const AdminDashboard = (props) => {
           View booking requests
         </Button>
       </Stack>
-      {currenTab === "BOOKING" && <AccordionComponent
-        headersProp={["New requests", "Approved requests"]}
-        rawData={combinedArr}
-      />}
+      <JumbotronComponent>
+        <div style={{minHeight: "50vh"}}>
+          {currenTab === "BOOKING" && <AccordionComponent
+            headersProp={["New requests", "Approved requests"]}
+            rawData={combinedArr}
+          />}
+        </div>
+      </JumbotronComponent>
       <Loader loaderType="Spinner" show={loading} />
     </article>
   );

@@ -15,9 +15,9 @@ POST http://localhost:4000/app/createadmin
 Content-Type: application/json
 
 {
-    "adminName":"testadmin2",
-    "adminId":"2512251201",
-    "adminPwd":"adminpwd1"
+    "adminName":"Divine Youth",
+    "adminId":"1234567890",
+    "adminPwd":"Jesuslovesyou"
 }
 
 ###

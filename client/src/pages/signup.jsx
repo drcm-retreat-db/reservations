@@ -8,6 +8,7 @@ import { onChangeValidator, signUpFormValidator } from "../utils/validator";
 import { getValueFromRef, getRadioCheckedValue } from "../utils/utilFunctions";
 import Loader from "../components/loaderFullscreen/loader";
 import AlertPopup from "../components/alerts/alertPopup";
+import { useBackendUrlDomain } from "../globalstate/context";
 
 const Signup = (props) => {
   const [success, setSuccess] = useState(false);
@@ -20,6 +21,8 @@ const Signup = (props) => {
   const [error, setError] = useState(false);
   const formRef = useRef();
   const navigate = useNavigate();
+  const BACKEND_URL_DOMAIN = useBackendUrlDomain();
+  const apiEndpoint = `${BACKEND_URL_DOMAIN}/app/signUpData`;
   const removeErrorStyles = (ref) => {
     [
       "userFullname",
@@ -36,7 +39,7 @@ const Signup = (props) => {
   };
   const processorFunc = (data) => {
     axios
-      .post("https://stormy-cove-49326.herokuapp.com/app/signUpData", {
+      .post(apiEndpoint, {
         ...data,
       })
       .then((response) => {

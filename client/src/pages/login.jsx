@@ -6,7 +6,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import { NavLink, useNavigate } from "react-router-dom";
 import { loginFormValidator } from "../utils/validator";
-import { useUserInfoUpdate } from "../globalstate/context";
+import { useBackendUrlDomain, useUserInfoUpdate } from "../globalstate/context";
 import openEye from "../assets/images/eye.svg";
 import closeEye from "../assets/images/eye-closed.svg";
 import Loader from "../components/loaderFullscreen/loader";
@@ -25,9 +25,10 @@ const Login = ({}) => {
   const [password, setPassword] = useState(null);
   const [isPwdOkay, setIsPwdOkay] = useState(false);
   const [isIdOkay, setIsIdOkay] = useState(false);
-
   const [hidePwd, setHidePwd] = useState(true);
   const updateUser = useUserInfoUpdate();
+  const BACKEND_URL_DOMAIN = useBackendUrlDomain();
+  const apiEndpoint = `${BACKEND_URL_DOMAIN}/app/loginData`;
 
   const removeErrorStyles = (ref) => {
     ["userLoginId", "userLoginPassword", "userLoginConfirmPassword"].forEach(
@@ -40,7 +41,7 @@ const Login = ({}) => {
 
   const processorFunc = (data) => {
     axios
-      .post("https://drc-reservations.onrender.com/app/loginData", {
+      .post(apiEndpoint, {
         ...data,
       })
       .then((response) => {

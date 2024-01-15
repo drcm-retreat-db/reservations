@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Stack from "react-bootstrap/Stack";
-import { useUserInfo } from "../globalstate/context";
+import { useBackendUrlDomain, useUserInfo } from "../globalstate/context";
 import { useNavigate } from "react-router-dom";
 import JumbotronComponent from "../components/jumbotron/jumbotronComponent";
 import AccordionComponent from "../components/accordion/accordion";
@@ -15,6 +15,8 @@ const AdminDashboard = (props) => {
   const [providerData, setProviderData] = useState(null);
   const [combinedArr, setCombinedArr] = useState([]);
   const userInfo = useUserInfo();
+  const BACKEND_URL_DOMAIN = useBackendUrlDomain();
+  const apiEndpoint = `${BACKEND_URL_DOMAIN}/app/getallrequests`;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +26,7 @@ const AdminDashboard = (props) => {
   useEffect(() => {
     if (userInfo.adminId) {
       axios
-        .post("https://stormy-cove-49326.herokuapp.com/app/getallrequests", {
+        .post(apiEndpoint, {
           loginId: userInfo.adminId,
         })
         .then((response) => {

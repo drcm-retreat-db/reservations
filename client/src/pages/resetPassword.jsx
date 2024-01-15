@@ -6,7 +6,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import { NavLink, useNavigate } from "react-router-dom";
 import { loginFormValidator, onChangeValidator } from "../utils/validator";
-import { useUserInfoUpdate } from "../globalstate/context";
+import { useBackendUrlDomain, useUserInfoUpdate } from "../globalstate/context";
 import greentick from "../assets/images/green-tick.png";
 import openEye from "../assets/images/eye.svg";
 import closeEye from "../assets/images/eye-closed.svg";
@@ -27,6 +27,8 @@ const ResetPassword = ({}) => {
   const [confirmPwd, setConfirmPwd] = useState(null);
   const [isPwdOkay, setIsPwdOkay] = useState(false);
   const [isIdOkay, setIsIdOkay] = useState(false);
+  const BACKEND_URL_DOMAIN = useBackendUrlDomain();
+  const apiEndpoint = `${BACKEND_URL_DOMAIN}/app/resetpasscode`;
   // const updateUserName = useUserInfoUpdate();
   const removeErrorStyles = (ref) => {
     ["userLoginId", "userLoginPassword", "userLoginConfirmPassword"].forEach(
@@ -38,7 +40,7 @@ const ResetPassword = ({}) => {
   };
   const processorFunc = (data) => {
     axios
-      .post("https://stormy-cove-49326.herokuapp.com/app/resetpasscode", {
+      .post(apiEndpoint, {
         ...data,
       })
       .then((response) => {

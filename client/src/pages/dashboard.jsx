@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { useUserInfo } from "../globalstate/context";
+import { useBackendUrlDomain, useUserInfo } from "../globalstate/context";
 import { useNavigate } from "react-router-dom";
 import JumbotronComponent from "../components/jumbotron/jumbotronComponent";
 import MultiStageForm from "../components/multiStageForm/multiStageForm";
@@ -17,13 +17,15 @@ const Dashboard = (props) => {
   const [loading, setLoading] = useState(false);
   const [modalOptions, setModalOptions] = useState({});
   const userInfo = useUserInfo();
+  const BACKEND_URL_DOMAIN = useBackendUrlDomain();
+  const apiEndpoint = `${BACKEND_URL_DOMAIN}/app/createapp`;
   const navigate = useNavigate();
 
   const onFormPost = (data) => {
     setShow(false);
     setLoading(true);
     axios
-      .post("https://stormy-cove-49326.herokuapp.com/app/createapp", {
+      .post(apiEndpoint, {
         ...data,
         bookedBy: userInfo?.loginId,
       })

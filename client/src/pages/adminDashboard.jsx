@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 import JumbotronComponent from "../components/jumbotron/jumbotronComponent";
 import AccordionComponent from "../components/accordion/accordion";
 import Loader from "../components/loaderFullscreen/loader";
-import { CSVLink } from "react-csv";
+// import { CSVLink } from "react-csv";
+import Button from "react-bootstrap/esm/Button";
 
 const AdminDashboard = (props) => {
   const [loading, setLoading] = useState(false);
+  const [currenTab, setCurrentTab] = useState(null);
   const [reqData, setReqData] = useState(null);
   const [seekerData, setSeekerData] = useState(null);
   const [providerData, setProviderData] = useState(null);
@@ -83,34 +85,22 @@ const AdminDashboard = (props) => {
     <article style={{ padding: "1rem 0" }}>
       <JumbotronComponent
         variant="success"
-        heading={`Welcome ${userInfo?.name} (admin)`}
+        heading={`Welcome ${userInfo?.name}`}
       >
-        You are now in Admin dashboard
+        You are in Admin dashboard
       </JumbotronComponent>
-      <Stack direction="horizontal" style={{ margin: "1rem 0" }} gap={3}>
-        {seekerData && (
-          <CSVLink
-            {...seekerData}
-            className="mx-auto mx-md-0 ms-md-auto btn btn-outline-success"
-          >
-            {getSpreadSheetIcon()}
-            Download seeker data
-          </CSVLink>
-        )}
-        {providerData && (
-          <CSVLink
-            {...providerData}
-            className="mx-auto mx-md-0 btn btn-outline-success"
-          >
-            {getSpreadSheetIcon()}
-            Download provider data
-          </CSVLink>
-        )}
+      <Stack direction="horizontal" style={{ margin: "1rem 0" }} gap={4}>
+        <Button variant="success" onClick={() => { setCurrentTab("ROOM") }}>
+          View room availabilty
+        </Button>
+        <Button variant="success" onClick={() => { setCurrentTab("BOOKING") }}>
+          View booking requests
+        </Button>
       </Stack>
-      <AccordionComponent
-        headersProp={["Seekers", "Providers"]}
+      {currenTab === "BOOKING" && <AccordionComponent
+        headersProp={["New requests", "Approved requests"]}
         rawData={combinedArr}
-      />
+      />}
       <Loader loaderType="Spinner" show={loading} />
     </article>
   );
@@ -120,17 +110,3 @@ AdminDashboard.propTypes = {};
 
 export default AdminDashboard;
 
-function getSpreadSheetIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      fill="currentColor"
-      className="bi bi-file-earmark-spreadsheet"
-      viewBox="0 0 20 20"
-    >
-      <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5v2zM3 12v-2h2v2H3zm0 1h2v2H4a1 1 0 0 1-1-1v-1zm3 2v-2h3v2H6zm4 0v-2h3v1a1 1 0 0 1-1 1h-2zm3-3h-3v-2h3v2zm-7 0v-2h3v2H6z" />
-    </svg>
-  );
-}

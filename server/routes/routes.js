@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const adminData = require("../models/adminModel.js");
 const roomData = require("../models/room.js");
+const NYRformData = require("../models/booking/NYRformModel.js");
 
 // router.post("/signUpData", async (request, response) => {
 //   const saltPassword = await bcrypt.genSalt(10);
@@ -36,7 +37,6 @@ const roomData = require("../models/room.js");
 //     });
 //   }
 // });
-
 
 // router.post("/resetpasscode", async (request, response) => {
 //   const doesExist = await userData.findOne({
@@ -85,7 +85,6 @@ const roomData = require("../models/room.js");
 //     });
 //   }
 // });
-
 
 // router.post("/createapp", async (request, response) => {
 //   const type = request.body.applicationType === "provider" ? "PRO" : "SEE";
@@ -178,6 +177,43 @@ const roomData = require("../models/room.js");
 //   } else response.send({ message: "no_admin_rights" });
 // });
 
+router.post("/newResponse", async (request, response) => {
+  const FilledNYRApplication = new NYRformData({
+    name: request.body.data.name,
+    mobile: request.body.data.mobile,
+    email: request.body.data.email,
+    profession: request.body.data.profession,
+    address: request.body.data.address,
+    country: request.body.data.country,
+    count: request.body.data.count,
+    participants: request.body.data.participants,
+    roomType: request.body.data.room,
+    cuisine: request.body.data.cuisine,
+    eta: request.body.data.eta,
+    sponsorName: request.body.data.sponsor,
+    sponsorCard: request.body.data.sponsor,
+    sponsorRelation: request.body.data.sponsorRelation,
+  });
+  // const isAdmin = await adminData.findOne({ adminId: request.body.loginId });
+  if (request.body.data.isNYR) {
+    FilledNYRApplication.save()
+      .then(
+        response.send({
+          message: `data_created`,
+          // fullName: request.body.adminName,
+          isSuccess: true,
+        })
+      )
+      .catch((error) => {
+        response.send({
+          message: `data_not_created`,
+          isSuccess: false,
+          // fullName: request.body.adminName,
+        });
+        console.log(error);
+      });
+  }
+});
 router.post("/createadmin", async (request, response) => {
   const saltPassword = await bcrypt.genSalt(10);
   const securePassword = await bcrypt.hash(request.body.adminPwd, saltPassword);
@@ -251,13 +287,14 @@ router.post("/loginData", async (request, response) => {
     //     });
     //   }
     // } else {
-      response.send({ message: `incorrect_mobile_no` });
+    response.send({ message: `incorrect_mobile_no` });
     // }
   }
 });
 
 router.post("/createroom", async (request, response) => {
-  if (isAdmin(request)) {
+  const isAdmin = await adminData.findOne({ adminId: request.body.loginId });
+  if (isAdmin) {
     const creatableRoom = new roomData({
       roomNo: request.body.roomNo,
       floor: request.body.floor,
@@ -270,9 +307,12 @@ router.post("/createroom", async (request, response) => {
       checkedIn: request.body.checkedIn,
       users: request.body.users,
       attributes: request.body.attributes,
-      comments: request.body.comments
+      comments: request.body.comments,
     });
-    const doesExist = await adminData.exists({ roomNo: creatableRoom.roomNo, building: creatableRoom.building, });
+    const doesExist = await adminData.exists({
+      roomNo: creatableRoom.roomNo,
+      building: creatableRoom.building,
+    });
     if (!doesExist) {
       creatableRoom
         .save()
@@ -289,10 +329,11 @@ router.post("/createroom", async (request, response) => {
         isSuccess: false,
       });
     }
-  } else response.send({ message: "no_admin_rights" })
+  } else response.send({ message: "no_admin_rights" });
 });
 router.post("/updateroom", async (request, response) => {
-  if (isAdmin(request)) {
+  const isAdmin = await adminData.findOne({ adminId: request.body.loginId });
+  if (isAdmin) {
     const updatableRoom = new roomData({
       roomNo: request.body.roomNo,
       floor: request.body.floor,
@@ -305,40 +346,48 @@ router.post("/updateroom", async (request, response) => {
       checkedIn: request.body.checkedIn,
       users: request.body.users,
       attributes: request.body.attributes,
-      comments: request.body.comments
+      comments: request.body.comments,
     });
-    const { updateInfo = {} } = request.body
-    const updatedRoom = await roomData.findOneAndUpdate({ roomNo: updatableRoom.roomNo, building: updatableRoom.building }, { ...updateInfo }, { new: true });
+    const { updateInfo = {} } = request.body;
+    const updatedRoom = await roomData.findOneAndUpdate(
+      { roomNo: updatableRoom.roomNo, building: updatableRoom.building },
+      { ...updateInfo },
+      { new: true }
+    );
     if (updatedRoom) {
       response.send({
         message: `room_updated`,
         isSuccess: true,
-      })
+      });
     } else {
       response.send({
         message: `unexpected_error_couldnt_update_room`,
         isSuccess: false,
       });
     }
-  } else response.send({ message: "no_admin_rights" })
+  } else response.send({ message: "no_admin_rights" });
 });
 router.post("/getallrooms", async (request, response) => {
-  if (isAdmin(request)) {
+  const isAdmin = await adminData.findOne({ adminId: request.body.loginId });
+  if (isAdmin) {
     const creatableRoom = new roomData({
       roomNo: request.body.roomNo,
       floor: request.body.floor,
       building: request.body.building,
       roomType: request.body.roomType,
       totalOccupancy: request.body.totalOccupancy,
-      availableOccupancy: request.body.availableOccupancy,
+      // availableOccupancy: request.body.availableOccupancy,
       readyToUse: request.body.readyToUse,
       alloted: request.body.alloted,
       checkedIn: request.body.checkedIn,
       users: request.body.users,
       attributes: request.body.attributes,
-      comments: request.body.comments
+      comments: request.body.comments,
     });
-    const doesExist = await adminData.exists({ roomNo: creatableRoom.roomNo, building: creatableRoom.building, });
+    const doesExist = await adminData.exists({
+      roomNo: creatableRoom.roomNo,
+      building: creatableRoom.building,
+    });
     if (!doesExist) {
       creatableRoom
         .save()
@@ -355,14 +404,7 @@ router.post("/getallrooms", async (request, response) => {
         isSuccess: false,
       });
     }
-  } else response.send({ message: "no_admin_rights" })
+  } else response.send({ message: "no_admin_rights" });
 });
 
 module.exports = router;
-
-async function isAdmin(request) {
-  return await adminData.findOne({
-    adminId: request.body.loginId,
-  });
-}
-

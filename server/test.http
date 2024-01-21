@@ -83,3 +83,40 @@ Content-Type: application/json
       "loginId": "2512251200"
 }
 ###
+POST http://localhost:4000/app/newResponse
+Content-Type: application/json
+
+{
+  "data": {
+    "name": "abc",
+    "mobile": "123123111",
+    "email": "abc@gmail.com",
+    "profession": "dev",
+    "address": "tuty",
+    "country": "India",
+    "count": "3",
+    "participants": [
+      {
+        "name": "one",
+        "age": "22",
+        "gender": "Male",
+        "MarriageDate": ""
+      },
+      {
+        "name": "two",
+        "age": "25",
+        "gender": "Female",
+        "MarriageDate": "12/12/2000"
+      }
+    ],
+    "roomType": "A/C",
+    "cuisine": "No",
+    "eta": "11 May",
+    "sponsorName": "def",
+    "sponsorCard": "drc112",
+    "sponsorRelation": "Mother"
+  },
+  "loginId": "1234567890"
+}
+
+###

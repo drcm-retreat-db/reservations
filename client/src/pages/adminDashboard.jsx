@@ -90,17 +90,20 @@ const AdminDashboard = (props) => {
         You are in Admin dashboard
       </JumbotronComponent>
       <Stack direction="horizontal" style={{ margin: "1rem 0" }} gap={4}>
-        <Button variant="success" onClick={() => { setCurrentTab("ROOM") }}>
+        <Button variant="success" onClick={() => { setCurrentTab("VIEW_ROOMS") }}>
           View room availabilty
         </Button>
         <Button variant="success" onClick={() => { setCurrentTab("BOOKING") }}>
           View booking requests
         </Button>
+        <Button variant="warning" onClick={() => { setCurrentTab("EDIT_ROOMS") }}>
+          Edit Rooms
+        </Button>
       </Stack>
       <JumbotronComponent>
         <div style={{minHeight: "50vh"}}>
           {currenTab === "BOOKING" && <AccordionComponent
-            headersProp={["New requests", "Approved requests"]}
+            headersProp={["Unapproved requests", "Approved requests"]}
             rawData={combinedArr}
           />}
         </div>

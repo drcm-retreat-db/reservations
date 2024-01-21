@@ -2,7 +2,10 @@ const mongoose=require('mongoose');
 
 const userTemplate=new mongoose.Schema({
     name: String,
-    contact: String
+    age: String,
+    gender: String,
+    contact: String,
+    MarriageDate: String
 })
 
 const roomTemplate=new mongoose.Schema({
@@ -11,8 +14,8 @@ const roomTemplate=new mongoose.Schema({
     building: String, // Sharon
     roomType: String, // AC, NONAC
     totalOccupancy: Number, // 3
-    availableOccupancy: Number, // 2
     readyToUse: Boolean, // true
+    isSharing: Boolean, // false
     alloted: Boolean, // true
     checkedIn: Boolean, // false
     users: [userTemplate],

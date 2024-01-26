@@ -5,7 +5,7 @@ const participantTemplate = new mongoose.Schema({
   gender: String,
   marriageDate: String,
 });
-const NYRformTemplate = new mongoose.Schema({
+const IYRformTemplate = new mongoose.Schema({
   name: String,
   mobile: String,
   email: String,
@@ -23,5 +23,5 @@ const NYRformTemplate = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now },
 });
 
-NYRformData = mongoose.model("nyrform", NYRformTemplate);
-module.exports = NYRformData;
+IYRformData = mongoose.model("iyrform", IYRformTemplate);
+module.exports = IYRformData;

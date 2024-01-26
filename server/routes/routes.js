@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const adminData = require("../models/adminModel.js");
 const roomData = require("../models/room.js");
 const NYRformData = require("../models/booking/NYRformModel.js");
+const IYRformData = require("../models/booking/IYRformModel.js");
 
 // router.post("/signUpData", async (request, response) => {
 //   const saltPassword = await bcrypt.genSalt(10);
@@ -178,36 +179,74 @@ const NYRformData = require("../models/booking/NYRformModel.js");
 // });
 
 router.post("/newResponse", async (request, response) => {
-  const FilledNYRApplication = new NYRformData({
-    name: request.body.data.name,
-    mobile: request.body.data.mobile,
-    email: request.body.data.email,
-    profession: request.body.data.profession,
-    address: request.body.data.address,
-    country: request.body.data.country,
-    count: request.body.data.count,
-    participants: request.body.data.participants,
-    roomType: request.body.data.room,
-    cuisine: request.body.data.cuisine,
-    eta: request.body.data.eta,
-    sponsorName: request.body.data.sponsor,
-    sponsorCard: request.body.data.sponsor,
-    sponsorRelation: request.body.data.sponsorRelation,
-  });
-  // const isAdmin = await adminData.findOne({ adminId: request.body.loginId });
   if (request.body.data.isNYR) {
+    const FilledNYRApplication = new NYRformData({
+      name: request.body.data.name,
+      mobile: request.body.data.mobile,
+      email: request.body.data.email,
+      profession: request.body.data.profession,
+      address: request.body.data.address,
+      country: request.body.data.country,
+      count: request.body.data.count,
+      participants: request.body.data.participants,
+      roomType: request.body.data.roomType,
+      cuisine: request.body.data.cuisine,
+      eta: request.body.data.eta,
+      sponsorName: request.body.data.sponsorName,
+      sponsorCard: request.body.data.sponsorCard,
+      sponsorRelation: request.body.data.sponsorRelation,
+    });
+    // const isAdmin = await adminData.findOne({ adminId: request.body.loginId });
     FilledNYRApplication.save()
       .then(
         response.send({
           message: `data_created`,
           // fullName: request.body.adminName,
           isSuccess: true,
+          isNYR: true
         })
       )
       .catch((error) => {
         response.send({
           message: `data_not_created`,
           isSuccess: false,
+          isNYR: true
+          // fullName: request.body.adminName,
+        });
+        console.log(error);
+      });
+  } else if (request.body.data.isIYR) {
+    const FilledIYRApplication = new IYRformData({
+      name: request.body.data.name,
+      mobile: request.body.data.mobile,
+      email: request.body.data.email,
+      profession: request.body.data.profession,
+      address: request.body.data.address,
+      country: request.body.data.country,
+      count: request.body.data.count,
+      participants: request.body.data.participants,
+      roomType: request.body.data.roomType,
+      cuisine: request.body.data.cuisine,
+      eta: request.body.data.eta,
+      sponsorName: request.body.data.sponsorName,
+      sponsorCard: request.body.data.sponsorCard,
+      sponsorRelation: request.body.data.sponsorRelation,
+    });
+    // const isAdmin = await adminData.findOne({ adminId: request.body.loginId });
+    FilledIYRApplication.save()
+      .then(
+        response.send({
+          message: `data_created`,
+          // fullName: request.body.adminName,
+          isSuccess: true,
+          isIYR: true
+        })
+      )
+      .catch((error) => {
+        response.send({
+          message: `data_not_created`,
+          isSuccess: false,
+          isIYR: true
           // fullName: request.body.adminName,
         });
         console.log(error);

@@ -83,7 +83,7 @@ Content-Type: application/json
       "loginId": "2512251200"
 }
 ###
-POST http://localhost:4000/app/newResponse
+POST https://drc-reservations.onrender.com/app/newResponse
 Content-Type: application/json
 
 {
@@ -95,28 +95,15 @@ Content-Type: application/json
     "address": "tuty",
     "country": "India",
     "count": "3",
-    "participants": [
-      {
-        "name": "one",
-        "age": "22",
-        "gender": "Male",
-        "MarriageDate": ""
-      },
-      {
-        "name": "two",
-        "age": "25",
-        "gender": "Female",
-        "MarriageDate": "12/12/2000"
-      }
-    ],
+    "participants": [],
     "roomType": "A/C",
     "cuisine": "No",
     "eta": "11 May",
     "sponsorName": "def",
     "sponsorCard": "drc112",
-    "sponsorRelation": "Mother"
-  },
-  "loginId": "1234567890"
+    "sponsorRelation": "Mother",
+    "isNYR": true
+  }
 }
 
 ###

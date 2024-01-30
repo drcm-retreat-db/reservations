@@ -24,7 +24,7 @@ const NYRformTemplate = new mongoose.Schema({
   address: String,
   country: String,
   profession: String,
-  count: Number,
+  count: String,
   participants: { type: [participantTemplate], default: [] },
   bookingData: bookingTemplate,
   roomType: String,
